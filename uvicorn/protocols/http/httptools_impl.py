@@ -130,7 +130,7 @@ class HttpToolsProtocol(asyncio.Protocol):
 
         if self.logger.level <= TRACE_LOG_LEVEL:
             prefix = "%s:%d - " % self.client if self.client else ""
-            self.logger.log(TRACE_LOG_LEVEL, "%sHTTP connection made", prefix)
+            self.logger.log(TRACE_LOG_LEVEL, "%sHTTP DEBUG1 connection made", prefix)
 
     def connection_lost(self, exc: Optional[Exception]) -> None:
         self.connections.discard(self)
