@@ -208,6 +208,10 @@ class H11Protocol(asyncio.Protocol):
                 self.send_400_response(msg)
                 return
             event_type = type(event)
+            # if TRACE_LOG_LEVEL is enabled, log the event type
+            if self.logger.level <= TRACE_LOG_LEVEL:
+                prefix = "%s:%d - " % self.client if self.client else ""
+                self.logger.log(TRACE_LOG_LEVEL, "%sHTTP event %s", prefix, event_type)
 
             if event_type is h11.NEED_DATA:
                 break
