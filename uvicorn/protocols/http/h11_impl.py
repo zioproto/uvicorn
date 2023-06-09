@@ -222,6 +222,13 @@ class H11Protocol(asyncio.Protocol):
 
             elif event_type is h11.Request:
                 self.headers = [(key.lower(), value) for key, value in event.headers]
+                # Dump headers if TRACE log level is enabled
+                if self.logger.level <= TRACE_LOG_LEVEL:
+                    prefix = "%s:%d - " % self.client if self.client else ""
+                    for name, value in self.headers:
+                        self.logger.log(
+                            TRACE_LOG_LEVEL, "%sHTTP header %s: %s", prefix, name, value
+                        )
                 raw_path, _, query_string = event.target.partition(b"?")
                 self.scope = {
                     "type": "http",
